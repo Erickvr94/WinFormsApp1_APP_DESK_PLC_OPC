@@ -94,6 +94,43 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             return (T)Convert.ChangeType(value!, typeof(T));
         }
 
+
+        public async Task EscribirNodoAsync(ushort ns, uint id, object value)
+        {
+            if (_session == null || !_session.Connected)
+                throw new InvalidOperationException("La sesión OPC UA no está conectada.");
+
+            NodeId nodeId = new NodeId(id, ns);
+
+            // Construye el WriteValue para el atributo Value
+            var wv = new WriteValue
+            {
+                NodeId = nodeId,
+                AttributeId = Attributes.Value,
+                Value = new DataValue(new Variant(value))
+            };
+
+            var writes = new WriteValueCollection { wv };
+
+            // Write en el servidor
+            _session.Write(
+                null,
+                writes,
+                out StatusCodeCollection results,
+                out DiagnosticInfoCollection diagnosticInfos);
+
+            // Validar resultado
+            if (results == null || results.Count == 0 || StatusCode.IsBad(results[0]))
+                throw new ServiceResultException(results?[0] ?? StatusCodes.BadUnexpectedError);
+        }
+
+        // Genérico tipado (recomendado)
+        public Task EscribirNodoAsync<T>(ushort ns, uint id, T value)
+        {
+            return EscribirNodoAsync(ns, id, (object)value!);
+        }
+
+
         public void Desconectar()
         {
             if (_session != null)
