@@ -46,6 +46,9 @@
             label1 = new Label();
             dateTimePicker_Off = new DateTimePicker();
             bt_EnviarHr = new Button();
+            lbSerieEquipo = new Label();
+            lbModelEquipo = new Label();
+            lbVersionTiaP = new Label();
             SuspendLayout();
             // 
             // btnConectarPLC
@@ -208,11 +211,41 @@
             bt_EnviarHr.UseVisualStyleBackColor = true;
             bt_EnviarHr.Click += bt_EnviarHr_Click;
             // 
+            // lbSerieEquipo
+            // 
+            lbSerieEquipo.AutoSize = true;
+            lbSerieEquipo.Location = new Point(167, 19);
+            lbSerieEquipo.Name = "lbSerieEquipo";
+            lbSerieEquipo.Size = new Size(32, 15);
+            lbSerieEquipo.TabIndex = 19;
+            lbSerieEquipo.Text = "-----";
+            // 
+            // lbModelEquipo
+            // 
+            lbModelEquipo.AutoSize = true;
+            lbModelEquipo.Location = new Point(264, 19);
+            lbModelEquipo.Name = "lbModelEquipo";
+            lbModelEquipo.Size = new Size(32, 15);
+            lbModelEquipo.TabIndex = 20;
+            lbModelEquipo.Text = "-----";
+            // 
+            // lbVersionTiaP
+            // 
+            lbVersionTiaP.AutoSize = true;
+            lbVersionTiaP.Location = new Point(119, 19);
+            lbVersionTiaP.Name = "lbVersionTiaP";
+            lbVersionTiaP.Size = new Size(32, 15);
+            lbVersionTiaP.TabIndex = 21;
+            lbVersionTiaP.Text = "-----";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(lbVersionTiaP);
+            Controls.Add(lbModelEquipo);
+            Controls.Add(lbSerieEquipo);
             Controls.Add(bt_EnviarHr);
             Controls.Add(dateTimePicker_Off);
             Controls.Add(label1);
@@ -258,5 +291,8 @@
         private Label label1;
         private DateTimePicker dateTimePicker_Off;
         private Button bt_EnviarHr;
+        private Label lbSerieEquipo;
+        private Label lbModelEquipo;
+        private Label lbVersionTiaP;
     }
 }

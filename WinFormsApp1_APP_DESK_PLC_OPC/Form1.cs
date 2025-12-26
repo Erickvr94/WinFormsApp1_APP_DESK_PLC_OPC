@@ -1,3 +1,4 @@
+using Opc.Ua;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -29,7 +30,20 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             try
             {
                 await _opc.ConectarAsync();
+              
                 MessageBox.Show("Conectado al PLC!", "OPC UA");
+                var nodeId_SerialNumber = new NodeId("SerialNumber",3);   // <-- ns=3;s=SerialNumber
+                object SerialNumber = await _opc.LeerNodoStringAsync(nodeId_SerialNumber);
+
+                var nodeId_DeviceRevision = new NodeId("DeviceRevision", 3);   
+                object DeviceRevision = await _opc.LeerNodoStringAsync(nodeId_DeviceRevision);
+
+                var nodeId_EngineeringRevision = new NodeId("EngineeringRevision", 3);
+                object EngineeringRevision = await _opc.LeerNodoStringAsync(nodeId_EngineeringRevision);
+
+                lbSerieEquipo.Text = SerialNumber?.ToString();
+                lbModelEquipo.Text = DeviceRevision?.ToString();
+                lbVersionTiaP.Text = EngineeringRevision?.ToString();
             }
             catch (Exception ex)
             {
@@ -41,7 +55,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
         {
             try
             {
-                object val = await _opc.LeerNodoAsync(5, 6);   // ns=5; id=5
+                object val = await _opc.LeerNodoAsync(5, 6);   // ns=5; id=6
                 lbLeertag1.Text = val.ToString();
                 //MessageBox.Show("Valor leído: " + val);
             }
@@ -218,8 +232,8 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                 await _opc.EscribirNodoAsync(5, 6, horaOff);
 
                 MessageBox.Show(
-                     $"Hora On : {tOn.Hours:D2}:{tOn.Minutes:D2}:{tOn.Seconds:D2}\n"+
-                    $" Hora Off : {tOff.Hours:D2}:{tOff.Minutes:D2}:{tOff.Seconds:D2}"
+                     $"Hora On: {tOn.Hours:D2}:{tOn.Minutes:D2}:{tOn.Seconds:D2}\n"+
+                     $"Hora Off: {tOff.Hours:D2}:{tOff.Minutes:D2}:{tOff.Seconds:D2}"
                 );
             }
             catch (Exception ex)

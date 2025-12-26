@@ -94,6 +94,12 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             return (T)Convert.ChangeType(value!, typeof(T));
         }
 
+        public async Task<object> LeerNodoStringAsync(NodeId nodeId)
+        {
+            DataValue value = await _session.ReadValueAsync(nodeId);
+            return value.Value;
+        }
+
 
         public async Task EscribirNodoAsync(ushort ns, uint id, object value)
         {
