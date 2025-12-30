@@ -49,13 +49,17 @@
             lbSerieEquipo = new Label();
             lbModelEquipo = new Label();
             lbVersionTiaP = new Label();
+            rb_Manual = new RadioButton();
+            rb_Horario = new RadioButton();
+            gpBox_SeleccionarModo = new GroupBox();
+            gpBox_SeleccionarModo.SuspendLayout();
             SuspendLayout();
             // 
             // btnConectarPLC
             // 
             btnConectarPLC.Location = new Point(12, 12);
             btnConectarPLC.Name = "btnConectarPLC";
-            btnConectarPLC.Size = new Size(89, 31);
+            btnConectarPLC.Size = new Size(73, 30);
             btnConectarPLC.TabIndex = 0;
             btnConectarPLC.Text = "Conectar";
             btnConectarPLC.UseVisualStyleBackColor = true;
@@ -63,7 +67,7 @@
             // 
             // btnLeervalor
             // 
-            btnLeervalor.Location = new Point(484, 19);
+            btnLeervalor.Location = new Point(441, 13);
             btnLeervalor.Name = "btnLeervalor";
             btnLeervalor.Size = new Size(89, 31);
             btnLeervalor.TabIndex = 1;
@@ -74,7 +78,7 @@
             // lbLeertag1
             // 
             lbLeertag1.AutoSize = true;
-            lbLeertag1.Location = new Point(595, 27);
+            lbLeertag1.Location = new Point(552, 21);
             lbLeertag1.Name = "lbLeertag1";
             lbLeertag1.Size = new Size(22, 15);
             lbLeertag1.TabIndex = 3;
@@ -82,7 +86,7 @@
             // 
             // btnEscribir
             // 
-            btnEscribir.Location = new Point(484, 62);
+            btnEscribir.Location = new Point(441, 56);
             btnEscribir.Name = "btnEscribir";
             btnEscribir.Size = new Size(89, 27);
             btnEscribir.TabIndex = 4;
@@ -92,7 +96,7 @@
             // 
             // txtBox_Escribirtag1
             // 
-            txtBox_Escribirtag1.Location = new Point(585, 67);
+            txtBox_Escribirtag1.Location = new Point(542, 61);
             txtBox_Escribirtag1.Name = "txtBox_Escribirtag1";
             txtBox_Escribirtag1.Size = new Size(100, 23);
             txtBox_Escribirtag1.TabIndex = 5;
@@ -100,7 +104,7 @@
             // lbBloqAutoHora
             // 
             lbBloqAutoHora.AutoSize = true;
-            lbBloqAutoHora.Location = new Point(15, 133);
+            lbBloqAutoHora.Location = new Point(450, 94);
             lbBloqAutoHora.Name = "lbBloqAutoHora";
             lbBloqAutoHora.Size = new Size(86, 15);
             lbBloqAutoHora.TabIndex = 6;
@@ -109,7 +113,7 @@
             // lbRunRem
             // 
             lbRunRem.AutoSize = true;
-            lbRunRem.Location = new Point(15, 102);
+            lbRunRem.Location = new Point(15, 131);
             lbRunRem.Name = "lbRunRem";
             lbRunRem.Size = new Size(55, 15);
             lbRunRem.TabIndex = 7;
@@ -117,21 +121,21 @@
             // 
             // txtBox_BloqAutoHora
             // 
-            txtBox_BloqAutoHora.Location = new Point(107, 128);
+            txtBox_BloqAutoHora.Location = new Point(436, 112);
             txtBox_BloqAutoHora.Name = "txtBox_BloqAutoHora";
             txtBox_BloqAutoHora.Size = new Size(100, 23);
             txtBox_BloqAutoHora.TabIndex = 8;
             // 
             // txtBox_RunRem
             // 
-            txtBox_RunRem.Location = new Point(107, 99);
+            txtBox_RunRem.Location = new Point(436, 141);
             txtBox_RunRem.Name = "txtBox_RunRem";
             txtBox_RunRem.Size = new Size(100, 23);
             txtBox_RunRem.TabIndex = 9;
             // 
             // btnBloqAutoHora
             // 
-            btnBloqAutoHora.Location = new Point(252, 128);
+            btnBloqAutoHora.Location = new Point(563, 112);
             btnBloqAutoHora.Name = "btnBloqAutoHora";
             btnBloqAutoHora.Size = new Size(100, 23);
             btnBloqAutoHora.TabIndex = 10;
@@ -141,7 +145,7 @@
             // 
             // btnRunRem
             // 
-            btnRunRem.Location = new Point(252, 99);
+            btnRunRem.Location = new Point(563, 141);
             btnRunRem.Name = "btnRunRem";
             btnRunRem.Size = new Size(100, 23);
             btnRunRem.TabIndex = 11;
@@ -152,7 +156,7 @@
             // checkB_RunRem
             // 
             checkB_RunRem.AutoSize = true;
-            checkB_RunRem.Location = new Point(218, 103);
+            checkB_RunRem.Location = new Point(107, 132);
             checkB_RunRem.Name = "checkB_RunRem";
             checkB_RunRem.Size = new Size(15, 14);
             checkB_RunRem.TabIndex = 12;
@@ -162,7 +166,7 @@
             // checkBox_BloqAutHr
             // 
             checkBox_BloqAutHr.AutoSize = true;
-            checkBox_BloqAutHr.Location = new Point(218, 132);
+            checkBox_BloqAutHr.Location = new Point(542, 116);
             checkBox_BloqAutHr.Name = "checkBox_BloqAutHr";
             checkBox_BloqAutHr.Size = new Size(15, 14);
             checkBox_BloqAutHr.TabIndex = 13;
@@ -238,11 +242,47 @@
             lbVersionTiaP.TabIndex = 21;
             lbVersionTiaP.Text = "-----";
             // 
+            // rb_Manual
+            // 
+            rb_Manual.AutoSize = true;
+            rb_Manual.Location = new Point(27, 22);
+            rb_Manual.Name = "rb_Manual";
+            rb_Manual.Size = new Size(65, 19);
+            rb_Manual.TabIndex = 22;
+            rb_Manual.TabStop = true;
+            rb_Manual.Text = "Manual";
+            rb_Manual.UseVisualStyleBackColor = true;
+            rb_Manual.CheckedChanged += rb_Manual_CheckedChanged;
+            // 
+            // rb_Horario
+            // 
+            rb_Horario.AutoSize = true;
+            rb_Horario.Location = new Point(145, 22);
+            rb_Horario.Name = "rb_Horario";
+            rb_Horario.Size = new Size(65, 19);
+            rb_Horario.TabIndex = 23;
+            rb_Horario.TabStop = true;
+            rb_Horario.Text = "Horario";
+            rb_Horario.UseVisualStyleBackColor = true;
+            rb_Horario.CheckedChanged += rb_Horario_CheckedChanged;
+            // 
+            // gpBox_SeleccionarModo
+            // 
+            gpBox_SeleccionarModo.Controls.Add(rb_Horario);
+            gpBox_SeleccionarModo.Controls.Add(rb_Manual);
+            gpBox_SeleccionarModo.Location = new Point(107, 70);
+            gpBox_SeleccionarModo.Name = "gpBox_SeleccionarModo";
+            gpBox_SeleccionarModo.Size = new Size(245, 52);
+            gpBox_SeleccionarModo.TabIndex = 24;
+            gpBox_SeleccionarModo.TabStop = false;
+            gpBox_SeleccionarModo.Text = "Seleccionar modo";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(670, 311);
+            Controls.Add(gpBox_SeleccionarModo);
             Controls.Add(lbVersionTiaP);
             Controls.Add(lbModelEquipo);
             Controls.Add(lbSerieEquipo);
@@ -267,6 +307,8 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            gpBox_SeleccionarModo.ResumeLayout(false);
+            gpBox_SeleccionarModo.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -294,5 +336,8 @@
         private Label lbSerieEquipo;
         private Label lbModelEquipo;
         private Label lbVersionTiaP;
+        private RadioButton rb_Manual;
+        private RadioButton rb_Horario;
+        private GroupBox gpBox_SeleccionarModo;
     }
 }

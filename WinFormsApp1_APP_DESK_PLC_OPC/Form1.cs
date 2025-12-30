@@ -3,12 +3,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace WinFormsApp1_APP_DESK_PLC_OPC
 {
     public partial class Form1 : Form
     {
         private Servicio_OPC _opc;
+        private LeerValoresCarga _carga_BloqAutoHr;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -16,6 +18,10 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             dateTimePicker_On.ShowUpDown = true; // para que sea tipo spinner y no calendario
             dateTimePicker_Off.Format = DateTimePickerFormat.Time;
             dateTimePicker_Off.ShowUpDown = true;
+
+
+            ///////////
+            ///////////
 
         }
 
@@ -30,12 +36,11 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             try
             {
                 await _opc.ConectarAsync();
-              
-                MessageBox.Show("Conectado al PLC!", "OPC UA");
-                var nodeId_SerialNumber = new NodeId("SerialNumber",3);   // <-- ns=3;s=SerialNumber
+
+                var nodeId_SerialNumber = new NodeId("SerialNumber", 3);   // <-- ns=3;s=SerialNumber
                 object SerialNumber = await _opc.LeerNodoStringAsync(nodeId_SerialNumber);
 
-                var nodeId_DeviceRevision = new NodeId("DeviceRevision", 3);   
+                var nodeId_DeviceRevision = new NodeId("DeviceRevision", 3);
                 object DeviceRevision = await _opc.LeerNodoStringAsync(nodeId_DeviceRevision);
 
                 var nodeId_EngineeringRevision = new NodeId("EngineeringRevision", 3);
@@ -44,6 +49,28 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                 lbSerieEquipo.Text = SerialNumber?.ToString();
                 lbModelEquipo.Text = DeviceRevision?.ToString();
                 lbVersionTiaP.Text = EngineeringRevision?.ToString();
+
+                MessageBox.Show("Conectado al PLC!", "OPC UA");
+
+                //Cargar modo de operacion
+                _carga_BloqAutoHr = new LeerValoresCarga(_opc);
+                bool resul_BloqAutoHr = await _carga_BloqAutoHr.CargarModoOperacion();
+                if (resul_BloqAutoHr)
+                {
+                    checkB_RunRem.Enabled = true;
+                    rb_Horario.Checked = false;
+                    dateTimePicker_On.Enabled = false;
+                    dateTimePicker_Off.Enabled = false;
+                    MessageBox.Show("resul_BloqAutoHr" + resul_BloqAutoHr);
+                }
+                if (!resul_BloqAutoHr)
+                {
+                    checkB_RunRem.Enabled = false;
+                    rb_Horario.Checked = true;
+                    dateTimePicker_On.Enabled = true;
+                    dateTimePicker_Off.Enabled = true;
+                    MessageBox.Show("resul_BloqAutoHr" + resul_BloqAutoHr);
+                }
             }
             catch (Exception ex)
             {
@@ -104,7 +131,6 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                     await _opc.EscribirNodoAsync(5, 9, checkBloqAutHr);
                     MessageBox.Show("BOOL escrito correctamente");
                 }
-
                 else
                 {
                     MessageBox.Show("Error: Ingrese 'true' o 'false' válido en el cuadro de texto.");
@@ -228,11 +254,12 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                          tOff.Minutes * 60 +
                          tOff.Seconds) * 1000
                     );
+                MessageBox.Show("Error al escribir Time_Of_Day: "+horaOff.GetType());
 
                 await _opc.EscribirNodoAsync(5, 6, horaOff);
 
                 MessageBox.Show(
-                     $"Hora On: {tOn.Hours:D2}:{tOn.Minutes:D2}:{tOn.Seconds:D2}\n"+
+                     $"Hora On: {tOn.Hours:D2}:{tOn.Minutes:D2}:{tOn.Seconds:D2}\n" +
                      $"Hora Off: {tOff.Hours:D2}:{tOff.Minutes:D2}:{tOff.Seconds:D2}"
                 );
             }
@@ -241,5 +268,27 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                 MessageBox.Show("Error al escribir Time_Of_Day: " + ex.Message);
             }
         }
+
+        private void rb_Manual_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_Manual.Checked)
+            {
+                checkB_RunRem.Enabled = true;
+                dateTimePicker_On.Enabled = false;
+                dateTimePicker_Off.Enabled = false;
+            }
+        }
+
+        private void rb_Horario_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_Horario.Checked)
+            {
+                checkB_RunRem.Enabled = false;
+                dateTimePicker_On.Enabled = true;
+                dateTimePicker_Off.Enabled = true;
+            }
+        }
+
+        
     }
 }
