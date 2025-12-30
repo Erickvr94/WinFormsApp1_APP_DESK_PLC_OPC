@@ -9,8 +9,9 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
 {
     public partial class Form1 : Form
     {
-        private Servicio_OPC _opc;
-        private LeerValoresCarga _carga_BloqAutoHr;
+        private readonly Servicio_OPC _opc;
+        private ModuloCarga _cargaValores;
+        private ModuloEstado _elementoUI;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -19,10 +20,25 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             dateTimePicker_Off.Format = DateTimePickerFormat.Time;
             dateTimePicker_Off.ShowUpDown = true;
 
+            ///////////CONSTRUCTOR CARGAR VALORES/////
+            _cargaValores = new ModuloCarga(
+                _opc,
+                rb_Manual,
+                rb_Horario,
+                checkB_RunRem,
+                dateTimePicker_On,
+                dateTimePicker_Off
+            );
 
-            ///////////
-            ///////////
-
+            ///////////CONSTRUCTOR UI/////
+            _elementoUI = new ModuloEstado(
+                _opc,
+                rb_Manual,         
+                rb_Horario,         
+                checkB_RunRem,     
+                lbLeertag1,      
+                btnLeervalor           
+            );
         }
 
         public Form1()
@@ -53,24 +69,8 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
                 MessageBox.Show("Conectado al PLC!", "OPC UA");
 
                 //Cargar modo de operacion
-                _carga_BloqAutoHr = new LeerValoresCarga(_opc);
-                bool resul_BloqAutoHr = await _carga_BloqAutoHr.CargarModoOperacion();
-                if (resul_BloqAutoHr)
-                {
-                    checkB_RunRem.Enabled = true;
-                    rb_Horario.Checked = false;
-                    dateTimePicker_On.Enabled = false;
-                    dateTimePicker_Off.Enabled = false;
-                    MessageBox.Show("resul_BloqAutoHr" + resul_BloqAutoHr);
-                }
-                if (!resul_BloqAutoHr)
-                {
-                    checkB_RunRem.Enabled = false;
-                    rb_Horario.Checked = true;
-                    dateTimePicker_On.Enabled = true;
-                    dateTimePicker_Off.Enabled = true;
-                    MessageBox.Show("resul_BloqAutoHr" + resul_BloqAutoHr);
-                }
+               await _cargaValores.CargarModoOperacion();
+               
             }
             catch (Exception ex)
             {
@@ -80,16 +80,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            try
-            {
-                object val = await _opc.LeerNodoAsync(5, 6);   // ns=5; id=6
-                lbLeertag1.Text = val.ToString();
-                //MessageBox.Show("Valor leído: " + val);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al leer: " + ex.Message);
-            }
+            await _elementoUI.LeerTag();
         }
 
         private async void btnEscribir_Click(object sender, EventArgs e)
