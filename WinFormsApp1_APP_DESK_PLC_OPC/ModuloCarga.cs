@@ -38,22 +38,32 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
         {
             try
             {
-                object val = await _opc_Carga.LeerNodoAsync(5, 9);
-                if (Convert.ToBoolean(val))
+                object val_blqautHr = await _opc_Carga.LeerNodoAsync(4, 9);
+                object val_runrem = await _opc_Carga.LeerNodoAsync(4, 8);
+                bool val = Convert.ToBoolean(val_runrem);
+                if (Convert.ToBoolean(val_blqautHr))
                 {
                     chk_RunRem.Enabled = true;
+                    rbOpcion_Manual.Checked = true;
                     rbOpcion_Horario.Checked = false;
                     dateTimePicker_On.Enabled = false;
                     dateTimePicker_Off.Enabled = false;
-                    MessageBox.Show("resul_BloqAutoHr" + Convert.ToBoolean(val));
+                    if (val)
+                    {
+                        chk_RunRem.Checked = val;
+                    }
                 }
-                if (!Convert.ToBoolean(val))
+                if (!Convert.ToBoolean(val_blqautHr))
                 {
                     chk_RunRem.Enabled = false;
+                    rbOpcion_Manual.Checked = false;
                     rbOpcion_Horario.Checked = true;
                     dateTimePicker_On.Enabled = true;
                     dateTimePicker_Off.Enabled = true;
-                    MessageBox.Show("resul_BloqAutoHr" + Convert.ToBoolean(val));
+                    if (!val)
+                    {
+                        chk_RunRem.Checked = val;
+                    }
                 }
                
             }
@@ -68,7 +78,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
         {
             try
             {
-                object val = await _opc_Carga.LeerNodoAsync(5, 7);   // ns=5; id=6
+                object val = await _opc_Carga.LeerNodoAsync(4, 7);   // ns=4; id=6
                 return Convert.ToString(val);
             }
             catch (Exception ex)
@@ -82,7 +92,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
         {
             try
             {
-                object val = await _opc_Carga.LeerNodoAsync(5, 6);   // ns=5; id=6
+                object val = await _opc_Carga.LeerNodoAsync(4, 6);   // ns=4; id=6
                 return Convert.ToString(val);
             }
             catch (Exception ex)

@@ -218,7 +218,7 @@
             // lbSerieEquipo
             // 
             lbSerieEquipo.AutoSize = true;
-            lbSerieEquipo.Location = new Point(167, 19);
+            lbSerieEquipo.Location = new Point(160, 19);
             lbSerieEquipo.Name = "lbSerieEquipo";
             lbSerieEquipo.Size = new Size(32, 15);
             lbSerieEquipo.TabIndex = 19;
@@ -227,7 +227,7 @@
             // lbModelEquipo
             // 
             lbModelEquipo.AutoSize = true;
-            lbModelEquipo.Location = new Point(264, 19);
+            lbModelEquipo.Location = new Point(257, 19);
             lbModelEquipo.Name = "lbModelEquipo";
             lbModelEquipo.Size = new Size(32, 15);
             lbModelEquipo.TabIndex = 20;
@@ -236,7 +236,7 @@
             // lbVersionTiaP
             // 
             lbVersionTiaP.AutoSize = true;
-            lbVersionTiaP.Location = new Point(119, 19);
+            lbVersionTiaP.Location = new Point(114, 19);
             lbVersionTiaP.Name = "lbVersionTiaP";
             lbVersionTiaP.Size = new Size(32, 15);
             lbVersionTiaP.TabIndex = 21;

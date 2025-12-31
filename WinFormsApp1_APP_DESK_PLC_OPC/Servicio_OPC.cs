@@ -81,6 +81,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
 
             NodeId nodeId = new NodeId(id, ns);
             DataValue dv = await _session.ReadValueAsync(nodeId);
+            
             return dv.Value;
         }
 
@@ -143,7 +144,7 @@ namespace WinFormsApp1_APP_DESK_PLC_OPC
             {
                 try
                 {
-                    _session.Close();   // warning de obsoleto, pero compila
+                    _session.Close();   
                 }
                 catch { }
                 finally
